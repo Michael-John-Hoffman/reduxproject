@@ -5,10 +5,15 @@ import  NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
+import {store} from './WrappedApp'
+// import _ from 'lodash';
+import {updateProducts} from './Actions'
+import { connect } from 'react-redux';
 
 const App = () => {
     return (
-      <Navbar bg="light" expand="lg">
+      <div>
+  <Navbar bg="light" expand="lg">
   <Navbar.Brand href="#home">Products</Navbar.Brand>
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
@@ -29,16 +34,18 @@ const App = () => {
     </Form>
   </Navbar.Collapse>
 </Navbar>
+<CommerceApi />
+</div>
     )
 }
 
-class MyComponent extends Component {
+class CommerceApi extends Component {
   constructor(props) {
     super(props);
     this.state = {
       error: null,
       isLoaded: false,
-      items: []
+      products: []
     };
   }
 
@@ -47,14 +54,8 @@ class MyComponent extends Component {
       .then(res => res.json())
       .then(
         (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result.items
-          });
+          store.dispatch(updateProducts(result))
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
           this.setState({
             isLoaded: true,
@@ -65,7 +66,7 @@ class MyComponent extends Component {
   }
 
   render() {
-    const { error, isLoaded, items } = this.state;
+    const { error, isLoaded, products } = this.props;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -73,9 +74,9 @@ class MyComponent extends Component {
     } else {
       return (
         <ul>
-          {items.map(item => (
-            <li key={item.name}>
-              {item.name} {item.price}
+          {products.map(item => (
+            <li key={item.title}>
+              {item.title} {item.price}
             </li>
           ))}
         </ul>
@@ -84,5 +85,21 @@ class MyComponent extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  
+  return {
+    products: state.products,
+  };
+};
 
-export default App;
+const mapDispatchToProps = (dispatch) => (
+  {
+    updateProducts: (products) => {dispatch(updateProducts(products))}
+  }
+);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
