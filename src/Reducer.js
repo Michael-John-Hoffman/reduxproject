@@ -7,13 +7,15 @@ function Reducer(state =
     isLoaded: false,
     products: []
   }, action) {
-  switch (action.type) {
-    case 'SET_PRODUCTS': {
+  console.log(action)
+    switch (action.type) {
+    case 'UPDATE_PRODUCTS': {
      
 
       return {
           ...state,
-          products: action.products 
+          products: action.products,
+          isLoaded: true
       };
     }
     default: {

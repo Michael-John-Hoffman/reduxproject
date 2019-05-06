@@ -6,7 +6,7 @@ import Reducer from './Reducer'
 
 
 const reducer = combineReducers({
-    ...Reducer
+    products: Reducer
   });
 
 export const store = createStore(reducer);

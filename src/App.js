@@ -1,11 +1,11 @@
-import React, { Component } from 'react'; 
+import React from 'react'; 
 import  Navbar  from 'react-bootstrap/Navbar';
 import  Nav  from 'react-bootstrap/Nav';
 import  NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import {store} from './WrappedApp'
+import CommerceApi from './CommerceApi'
 // import _ from 'lodash';
 import {updateProducts} from './Actions'
 import { connect } from 'react-redux';
@@ -39,56 +39,11 @@ const App = () => {
     )
 }
 
-class CommerceApi extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      products: []
-    };
-  }
-
-  componentDidMount() {
-    fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          store.dispatch(updateProducts(result))
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  }
-
-  render() {
-    const { error, isLoaded, products } = this.props;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <ul>
-          {products.map(item => (
-            <li key={item.title}>
-              {item.title} {item.price}
-            </li>
-          ))}
-        </ul>
-      );
-    }
-  }
-}
-
 const mapStateToProps = (state) => {
-  
+  console.log("state", state)
+  console.log(state.products.products)
   return {
-    products: state.products,
+    products: state.products.products, // from Reducer.products
   };
 };
 
