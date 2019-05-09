@@ -1,13 +1,10 @@
 import React, { Component } from 'react'; 
-import {updateProducts} from './Actions'
+import {updateProducts, productDetailsId, changeRoute} from './Actions'
 import { connect } from 'react-redux';
+import './index.css'
+import { Link } from "react-router-dom";
 
 class CommerceApi extends Component {
-    constructor(props) {
-      super(props);
-      
-    }
-  
     componentDidMount() {
       fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
         .then(res => res.json())
@@ -20,30 +17,38 @@ class CommerceApi extends Component {
         )
     }
   
+    productDetailsId = (id) => {
+        this.props.productDetails(id)
+    }
+
     render() {
       const { error, isLoaded, products } = this.props;
-      console.log("props", this.props)
       if (error) {
         return <div>Error: {error.message}</div>;
       } else if (!isLoaded) {
         return <div>Loading...</div>;
       } else {
         return (
-          <ul>
+
+          <div> 
             {products.map(item => (
-              <li key={item.title}>
-                {item.title} {item.price}
-              </li>
+                 <nav>
+                 <Link to="/dashboard">Dashboard</Link>
+                 <div onClick={() => this.productDetailsId(item.id)} key={item.title}>
+                    <div className="list">
+                        {item.title} {item.price} <img src ={item.img} style={{height: 200}}/>
+                    </div>
+                </div>
+               </nav>
             ))}
-          </ul>
+          </div>
         );
       }
     }
   }
   
   const mapStateToProps = (state) => {
-    console.log("state", state)
-    console.log(state.products.products)
+    
     return {
       products: state.products.products, // from Reducer.products
       isLoaded: state.products.isLoaded
@@ -52,7 +57,11 @@ class CommerceApi extends Component {
   
   const mapDispatchToProps = (dispatch) => (
     {
-      updateProducts: (products) => {dispatch(updateProducts(products))}
+      updateProducts: (products) => {dispatch(updateProducts(products))},
+      productDetails: (id) => {
+          dispatch(productDetailsId(id));
+          dispatch(changeRoute('ProductDetails'))
+      }
     }
   );
   

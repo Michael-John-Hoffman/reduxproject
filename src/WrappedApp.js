@@ -3,19 +3,30 @@ import App from './App'
 import React from 'react'
 import { Provider } from 'react-redux';
 import Reducer from './Reducer'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import CommerceApi from './CommerceApi';
+import ProductsDetailsPage from './ProductsDetailsPage';
+import CartPage from './CartPage'
 
 
-const reducer = combineReducers({
+const Root = () => {
+  const reducer = combineReducers({
     products: Reducer
   });
+  const store = createStore(reducer);
+    return (
+      <Provider store={store}>
 
-export const store = createStore(reducer);
+        <Router>
+          <Route path="/home" component={CommerceApi} />
+          <Route path="/" exact component={App} />
+          <Route path="/CommerceApi/" component={CommerceApi} />
+          <Route path="/ProductsDetailsPage/:id/" component={ProductsDetailsPage} />
+          <Route path="/CartPage/" component={CartPage} />
+        </Router>
+      </Provider>
+    )
+}
 
 
-const WrappedApp = () => (
-    <Provider store={store}>
-      <App/>
-    </Provider>
-  );
-
-  export default WrappedApp
+export default Root
