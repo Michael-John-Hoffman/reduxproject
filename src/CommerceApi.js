@@ -22,7 +22,7 @@ class CommerceApi extends Component {
         if (this.props.search === '')
         return this.props.products
         return this.props.products.filter(product =>{
-            if(this.props.search == product.category){
+            if(this.props.search === product.category){
                 return true
             } else {
                 return false
@@ -47,16 +47,21 @@ class CommerceApi extends Component {
 
           <div> 
               <App />
+              <div className="rows">
             {products.map(item => (
                 
                  <Link to={`/ProductsDetailsPage/${item.id}`}>
-                 <div onClick={() => this.productDetailsId(item.id)} key={item.title}>
+                 <div  onClick={() => this.productDetailsId(item.id)} key={item.title}>
                     <div className="list">
-                        {item.title} {item.price} <img src ={item.img} style={{height: 200}}/>
+                         <img src ={item.img} className="imgStyle" alt="pic"/>
+                        <div>{item.title} </div>
+                        <div>${item.price}</div>
+                        <div>Rating: {item.rating}/5</div>
                     </div>
                 </div>
                 </Link> 
             ))}
+            </div>
           </div>
         );
       }

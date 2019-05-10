@@ -13,13 +13,57 @@ code {
     monospace;
 }
 
-image {
-  height: 200px;
-  width: 200px;
-}
 
 .list {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 300px;
+  margin: 15px;
+}
+
+.rows{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.imgStyle{
+  max-width:100%;
+  height:auto;
+  max-height: 600px;
+}
+
+.detailsPic{
+  margin-top: 20px;
+  max-height: 500px;
+  padding-left: 20px;
+}
+
+.detailstext{
+  margin-left: 40px;
+}
+.buttondetails{
+  margin-top: 20px;
+  margin-left: 40px;
+  margin-bottom: 40px;
+}
+
+.description{
+  font-size: 20px;
+  max-width: 500px;
+  padding-top: 10px;
+
+}
+
+.productstitle{
+  font-size: 24px;
+}
+
+.detailsblock{
+  display: flex;
+  flex-direction: row;
+}
+.pricerating{
+  margin-left: 30px;
+  margin-top: 20px;
 }

@@ -25,13 +25,17 @@ class ProductsDetailsPage extends Component {
         return (
           <div>
             <App />
-           <div>{product.title}</div> 
-           <div>{product.description}</div> 
-           <div><img src ={product.img} style={{height: 200}}></img></div> 
-           <div>{product.price}</div> 
-           <div>{product.rating}</div> 
-           <Button onClick={() => {this.props.addToCart(product.id)}} variant="outline-success">Add</Button>
-          </div>
+           <div className="productstitle">{product.title}</div> 
+           <div className="description">Description: {product.description}</div> 
+           <div className="detailsblock">
+            <div><img src ={product.img} className="detailsPic" alt="pic"></img></div> 
+            <div className="pricerating">
+                <div className="detailstext">${product.price}</div> 
+                <div className="detailstext">Rating: {product.rating}/5</div> 
+                <Button onClick={() => {this.props.addToCart(product.id)}} variant="outline-success" className="buttondetails">Add to cart</Button>
+              </div>
+           </div>
+           </div>
         );
       }
     
