@@ -3,6 +3,7 @@ import {updateProducts, productDetailsId, changeRoute} from './Actions'
 import { connect } from 'react-redux';
 import './index.css'
 import { Link } from "react-router-dom";
+import App from './App'
 
 class CommerceApi extends Component {
     componentDidMount() {
@@ -16,13 +17,26 @@ class CommerceApi extends Component {
           }
         )
     }
+
+    getSearchProducts = () => {
+        if (this.props.search === '')
+        return this.props.products
+        return this.props.products.filter(product =>{
+            if(this.props.search == product.category){
+                return true
+            } else {
+                return false
+            }
+        })
+    }
   
     productDetailsId = (id) => {
         this.props.productDetails(id)
     }
 
     render() {
-      const { error, isLoaded, products } = this.props;
+      const { error, isLoaded} = this.props;
+      const products = this.getSearchProducts()
       if (error) {
         return <div>Error: {error.message}</div>;
       } else if (!isLoaded) {
@@ -30,16 +44,18 @@ class CommerceApi extends Component {
       } else {
         return (
 
+
           <div> 
+              <App />
             {products.map(item => (
-                 <nav>
-                 <Link to="/dashboard">Dashboard</Link>
+                
+                 <Link to={`/ProductsDetailsPage/${item.id}`}>
                  <div onClick={() => this.productDetailsId(item.id)} key={item.title}>
                     <div className="list">
                         {item.title} {item.price} <img src ={item.img} style={{height: 200}}/>
                     </div>
                 </div>
-               </nav>
+                </Link> 
             ))}
           </div>
         );
@@ -51,7 +67,8 @@ class CommerceApi extends Component {
     
     return {
       products: state.products.products, // from Reducer.products
-      isLoaded: state.products.isLoaded
+      isLoaded: state.products.isLoaded,
+      search: state.products.search
     };
   };
   

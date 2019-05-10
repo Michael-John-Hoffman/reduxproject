@@ -18,3 +18,24 @@ export function changeRoute(route) {
         route
     }
 }
+
+export function addToCart(id){
+    return{
+        type: 'ADD_CART_ITEM',
+        id
+
+    }
+}
+
+export function removeFromCart(id){
+    return{
+        type: 'DELETE_CART_ITEM',
+        id
+    }
+}
+export function search(category){
+    return{
+        type: 'SEARCH',
+        category
+    }
+}
